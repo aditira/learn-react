@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learn React</title>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+
+        function Message(props) {
+            return (<p>Halo, nama saya adalah {props.name}</p>)
+        }
+
+        function Game({desc}) {
+            return (<p>Game : {desc ? desc : 'Default Descritption'}</p>)
+        }
+
+        function Header() {
+            return (<h1 className="heading">Belajar React sama Aditira Jamhuri 🚀</h1>)
+        }
+
+        function MyButton({text, onClick, counter}) {
+            const disabled = (text !== 'Reset!') ? ((counter > 9 || counter < 0) ? true : false) : ((counter > 9 || counter < 0) ? false : true);
+
+            const myStyle = (text !== 'Reset!' ? {} : {margin: 20, display: 'block'});
+
+            return (
+                <button onClick={onClick} disabled={disabled} style={myStyle}>
+                    {text}
+                </button>
+            )
+        }
+
+        function MyCounter({counter}) {
+            if (counter > 9 || counter < 0) {
+                counter = 'done!'
+            }
+
+            return (
+                <span style={{ margin: 20 }}>{counter}</span>
+            )
+        }
+
+        function HomePage() {
+            const students = ['Aditira', 'Gina', 'Juno', 'Gilang', 'Abi']
+
+            const [likes, setLikes] = React.useState(0);
+
+            function handleClick() {
+                setLikes(likes + 1);
+            }
+
+            const [counter, setCounter] = React.useState(0);
+
+            function increment() {
+                setCounter(counter + 1);
+            }
+
+            function decrement() {
+                setCounter(counter - 1);
+            }
+
+            function reset() {
+                setCounter(0);
+            }
+
+            return (
+                <>
+                    <Header />
+                    <img src="https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg" width="80" alt="My Image"/>
+                    <p onClick={e => {alert('ok!')}}>Belajar React itu mudah dan menyenangkan?!</p>
+                    <Message name="Aditira Jamhuri" />
+                    <Message name="Dito Prasetyo" />
+
+                    <hr/>
+
+                    <Game />
+                    <Game desc="Game mobile legend description!" />
+
+                    <hr/>
+                    <ul>
+                        {students.map((student, index) => 
+                            <li key={index}>{student}</li>)
+                        }
+                    </ul>
+
+                    <hr/>
+
+                    <button onClick={handleClick}>Like ({likes})</button>
+
+                    <hr/>
+
+                    <div>
+                        <MyButton text={'-'} onClick={decrement} counter={counter} />
+                        <MyCounter counter={counter} />
+                        <MyButton text={'+'} onClick={increment} counter={counter} />
+                        <MyButton text={'Reset!'} onClick={reset} counter={counter} />
+                    </div>
+                </>
+            )
+        }
+
+        root.render(<HomePage/>);
+    </script>
+</body>
+</html>
